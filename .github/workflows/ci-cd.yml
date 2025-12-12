@@ -69,8 +69,8 @@ jobs:
           npm run build
           npm test
 
-      - name: Build & Test Clubs Service
-        working-directory: clubs-service
+      - name: Build & Test Reviews Service
+        working-directory: reviews-service
         run: |
           npm ci
           npm run build
@@ -117,10 +117,10 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/books-service:latest ./books-service
           docker push ${{ secrets.DOCKER_USERNAME }}/books-service:latest
 
-      - name: Build & Push Clubs Service
+      - name: Build & Push Reviews Service
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/clubs-service:latest ./clubs-service
-          docker push ${{ secrets.DOCKER_USERNAME }}/clubs-service:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/reviews-service:latest ./reviews-service
+          docker push ${{ secrets.DOCKER_USERNAME }}/reviews-service:latest
 
       - name: Build & Push API Gateway
         run: |
