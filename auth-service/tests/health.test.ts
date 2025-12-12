@@ -1,4 +1,4 @@
-import * as request from 'supertest';
+const request = require('supertest');
 
 describe('Health Check', () => {
     it('should respond with 200 on /health', async () => {

@@ -1,4 +1,4 @@
-import * as request from 'supertest';
+const request = require('supertest');
 import app from '../src/index.js'; // экспортируй express app из index.js
 
 describe('API Gateway', () => {
