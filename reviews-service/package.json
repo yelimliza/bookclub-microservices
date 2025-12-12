@@ -4,8 +4,11 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "start": "node src/index.js",
-    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --runInBand"  },
+    "start": "node dist/main.js",
+    "start:dev": "nest start --watch",
+    "build": "nest build",
+    "test": "jest"
+  },
   "dependencies": {
     "express": "^4.19.2"
   },
