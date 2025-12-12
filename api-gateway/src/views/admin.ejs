@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <title>BookClub — админ-панель</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+<%- include('partials/header') %>
+<main class="container">
+    <%- include('partials/flash') %>
+
+    <!-- Добавить книгу -->
+    <section class="panel">
+        <h1 class="title">Добавить книгу</h1>
+        <form method="post" action="/admin/books/add">
+            <input class="input" name="title" placeholder="Название" required />
+            <input class="input" name="author" placeholder="Автор" required />
+            <input class="input" name="genre" placeholder="Жанр" />
+            <input class="input" type="number" name="year" placeholder="Год" />
+            <textarea class="textarea" name="description" placeholder="Описание"></textarea>
+            <label><input type="checkbox" name="isTop" value="true" /> Включить в ТОП</label>
+            <button class="btn" type="submit">Добавить</button>
+        </form>
+    </section>
+
+    <!-- Пользователи -->
+    <section class="panel">
+        <h1 class="title">Пользователи</h1>
+        <table class="table">
+            <thead><tr><th>ID</th><th>Email</th><th>Роль</th><th>Статус</th><th>Действие</th></tr></thead>
+            <tbody>
+            <% users.forEach(function(u){ %>
+                <tr>
+                    <td><%= u.id %></td>
+                    <td><%= u.email %></td>
+                    <td><%= u.role %></td>
+                    <td><%= u.banned ? 'Забанен' : 'Активен' %></td>
+                    <td>
+                        <% if (!u.banned) { %>
+                            <form method="post" action="/admin/users/<%= u.id %>/ban">
+                                <button class="btn btn-warn" type="submit">Забанить</button>
+                            </form>
+                        <% } %>
+                    </td>
+                </tr>
+            <% }) %>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Книги -->
+    <section class="panel">
+        <h1 class="title">Книги</h1>
+        <% books.forEach(function(b){ %>
+            <form method="post" action="/admin/books/<%= b.id %>/update" class="card" style="margin-bottom:12px;">
+                <input class="input" name="title" value="<%= b.title %>" />
+                <input class="input" name="author" value="<%= b.author %>" />
+                <input class="input" name="genre" value="<%= b.genre %>" />
+                <input class="input" type="number" name="year" value="<%= b.year || '' %>" />
+                <textarea class="textarea" name="description"><%= b.description || '' %></textarea>
+                <button class="btn" type="submit">Обновить</button>
+            </form>
+            <form method="post" action="/admin/books/<%= b.id %>/top" style="margin-bottom:12px;">
+                <select class="select" name="isTop">
+                    <option value="true" <%= b.isTop ? 'selected' : '' %>>ТОП</option>
+                    <option value="false" <%= !b.isTop ? 'selected' : '' %>>Нет</option>
+                </select>
+                <button class="btn btn-outline" type="submit">Сохранить ТОП</button>
+            </form>
+        <% }) %>
+    </section>
+
+    <!-- Комментарии -->
+    <section class="panel">
+        <h1 class="title">Комментарии</h1>
+        <table class="table">
+            <thead><tr><th>ID</th><th>Книга</th><th>Email</th><th>Комментарий</th><th>Действие</th></tr></thead>
+            <tbody>
+            <% reviews.forEach(function(r){ %>
+                <tr>
+                    <td><%= r.id %></td>
+                    <td><%= r.bookId %></td>
+                    <td><%= r.userEmail %></td>
+                    <td><%= r.comment %></td>
+                    <td>
+                        <form method="post" action="/admin/reviews/<%= r.id %>/delete">
+                            <button class="btn btn-danger" type="submit">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+            </tbody>
+        </table>
+    </section>
+</main>
+</body>
+</html>

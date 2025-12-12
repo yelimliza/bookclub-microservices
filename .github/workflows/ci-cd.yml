@@ -1,0 +1,87 @@
+name: CI/CD
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies (all services)
+        run: |
+          npm --version
+          cd auth-service && npm ci && cd ..
+          cd users-service && npm ci && cd ..
+          cd books-service && npm ci && cd ..
+          cd reviews-service && npm ci && cd ..
+          cd api-gateway && npm ci && cd ..
+
+      - name: Run tests (auth)
+        run: cd auth-service && npm test
+      - name: Run tests (users)
+        run: cd users-service && npm test
+      - name: Run tests (books)
+        run: cd books-service && npm test
+      - name: Run tests (reviews)
+        run: cd reviews-service && npm test
+      - name: Run tests (gateway)
+        run: cd api-gateway && npm test
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build & Push auth-service
+        uses: docker/build-push-action@v5
+        with:
+          context: ./auth-service
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/auth-service:latest
+
+      - name: Build & Push users-service
+        uses: docker/build-push-action@v5
+        with:
+          context: ./users-service
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/users-service:latest
+
+      - name: Build & Push books-service
+        uses: docker/build-push-action@v5
+        with:
+          context: ./books-service
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/books-service:latest
+
+      - name: Build & Push reviews-service
+        uses: docker/build-push-action@v5
+        with:
+          context: ./reviews-service
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/reviews-service:latest
+
+      - name: Build & Push api-gateway
+        uses: docker/build-push-action@v5
+        with:
+          context: ./api-gateway
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:latest

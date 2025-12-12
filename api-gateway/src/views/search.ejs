@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <title>BookClub — поиск книг</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+<%- include('partials/header') %>
+<main class="container">
+    <%- include('partials/flash') %>
+
+    <section class="panel">
+        <h1 class="title">Поиск книг</h1>
+        <form class="grid form-row" method="get" action="/search" style="margin-bottom: 12px;">
+            <input class="input" type="text" name="q" value="<%= q || '' %>" placeholder="Название или автор" />
+            <select class="select" name="genre">
+                <option value="">Все жанры</option>
+                <% (genres || []).forEach(function(g){ %>
+                    <% var gl = String(g || '').toLowerCase(); %>
+                    <option value="<%= g %>" <%= (genre||'')===gl ? 'selected' : '' %>><%= g %></option>
+                <% }) %>
+            </select>
+            <input class="input" type="text" name="author" value="<%= author || '' %>" placeholder="Автор" />
+            <input class="input" type="number" name="year" value="<%= year || '' %>" placeholder="Год" />
+            <button class="btn" type="submit">Искать</button>
+        </form>
+
+        <div class="grid grid-3">
+            <% if (books && books.length) { %>
+                <% books.forEach(function(b){ %>
+                    <article class="card">
+                        <h2><a href="/book/<%= b.id %>"><%= b.title || 'Без названия' %></a></h2>
+                        <p class="meta">Автор: <%= b.author || 'Неизвестен' %></p>
+                        <p class="meta">Жанр: <%= b.genre || '—' %> · Год: <%= b.year || '—' %></p>
+                        <% if (b.isTop) { %><p class="meta" style="color:#a7f3d0;">Входит в ТОП</p><% } %>
+                    </article>
+                <% }) %>
+            <% } else { %>
+                <p class="sub">Ничего не найдено по указанным критериям.</p>
+            <% } %>
+        </div>
+    </section>
+</main>
+</body>
+</html>

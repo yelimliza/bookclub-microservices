@@ -1,0 +1,26 @@
+<h1>Мои списки</h1>
+<h2>Избранное</h2>
+<ul>
+    <% (favorites||[]).forEach(b => { %>
+        <li><%= b.title %> — <%= b.author %></li>
+    <% }) %>
+</ul>
+
+<h2>Прочитано</h2>
+<ul>
+    <% (read||[]).forEach(b => { %>
+        <li><%= b.title %> — <%= b.author %></li>
+    <% }) %>
+</ul>
+
+<h3>Добавить в избранное</h3>
+<form method="post" action="/my/favorites">
+    <input name="bookId" placeholder="ID книги"/>
+    <button type="submit">Добавить</button>
+</form>
+
+<h3>Добавить в прочитано</h3>
+<form method="post" action="/my/read">
+    <input name="bookId" placeholder="ID книги"/>
+    <button type="submit">Добавить</button>
+</form>

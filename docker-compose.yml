@@ -1,0 +1,64 @@
+version: "3.9"
+
+services:
+  auth-service:
+    build: ./auth-service
+    image: ${DOCKERHUB_USERNAME:-local}/auth-service:latest
+    container_name: auth-service
+    environment:
+      - JWT_SECRET=dev-secret
+    ports:
+      - "8001:8001"
+    networks:
+      - appnet
+
+  users-service:
+    build: ./users-service
+    image: ${DOCKERHUB_USERNAME:-local}/users-service:latest
+    container_name: users-service
+    ports:
+      - "8002:8002"
+    networks:
+      - appnet
+
+  books-service:
+    build: ./books-service
+    image: ${DOCKERHUB_USERNAME:-local}/books-service:latest
+    container_name: books-service
+    ports:
+      - "8003:8003"
+    networks:
+      - appnet
+
+  reviews-service:
+    build: ./reviews-service
+    image: ${DOCKERHUB_USERNAME:-local}/reviews-service:latest
+    container_name: reviews-service
+    ports:
+      - "8004:8004"
+    networks:
+      - appnet
+
+  api-gateway:
+    build: ./api-gateway
+    image: ${DOCKERHUB_USERNAME:-local}/api-gateway:latest
+    container_name: api-gateway
+    environment:
+      - AUTH_URL=http://auth-service:8001
+      - USERS_URL=http://users-service:8002
+      - BOOKS_URL=http://books-service:8003
+      - REVIEWS_URL=http://reviews-service:8004
+      - PORT=8080
+    ports:
+      - "8080:8080"
+    depends_on:
+      - auth-service
+      - users-service
+      - books-service
+      - reviews-service
+    networks:
+      - appnet
+
+networks:
+  appnet:
+    driver: bridge

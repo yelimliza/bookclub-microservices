@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+    <meta charset="utf-8" /><title>BookClub — отзывы</title>
+</head><body>
+<h1>Отзывы</h1>
+<nav><a href="/">Книги</a> | <a href="/users">Пользователи</a> | <a href="/reviews">Отзывы</a></nav>
+<% if (reviews && reviews.length) { %>
+    <ul>
+        <% reviews.forEach(r => { %>
+            <li>Книга #<%= r.bookId %>, пользователь #<%= r.userId %>, комментарий: <%= r.comment %></li>
+        <% }) %>
+    </ul>
+<% } else { %>
+    <p>Отзывов нет.</p>
+<% } %>
+</body></html>

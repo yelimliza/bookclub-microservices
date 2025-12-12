@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <title>BookClub — книга</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+<%- include('partials/header') %>
+<main class="container">
+    <%- include('partials/flash') %>
+
+    <% if (book) { %>
+        <section class="panel">
+            <h1 class="title"><%= book.title || 'Без названия' %></h1>
+            <p class="sub">Автор: <%= book.author || 'Неизвестен' %></p>
+            <p class="sub">Жанр: <%= book.genre || '—' %> · Год: <%= book.year || '—' %></p>
+            <% if (book.description) { %><p style="margin-top:12px;"><%= book.description %></p><% } %>
+
+            <% if (user && user.email) { %>
+                <div class="actions" style="margin-top: 16px;">
+                    <form method="post" action="/book/<%= book.id %>/want"><button class="btn" type="submit">Хочу прочитать</button></form>
+                    <form method="post" action="/book/<%= book.id %>/read"><button class="btn btn-outline" type="submit">Прочитано</button></form>
+                </div>
+            <% } %>
+        </section>
+
+        <section class="panel" style="margin-top:16px;">
+            <h2 class="title">Комментарии</h2>
+            <% if (user && user.email) { %>
+                <form method="post" action="/book/<%= book.id %>/reviews" style="margin-bottom:12px;">
+                    <div class="form-row">
+                        <input class="input" type="number" name="rating" min="1" max="5" value="5" />
+                        <button class="btn" type="submit">Отправить</button>
+                    </div>
+                    <textarea class="textarea" name="comment" placeholder="Ваш комментарий..." required></textarea>
+                </form>
+            <% } else { %>
+                <p class="sub">Войдите, чтобы оставить комментарий.</p>
+            <% } %>
+
+            <% if (reviews && reviews.length) { %>
+                <% reviews.forEach(function(r){ %>
+                    <article class="card" style="margin-bottom:10px;">
+                        <div class="actions" style="justify-content:space-between;">
+                            <div><strong><%= r.userEmail %></strong> — ★ <%= r.rating || 5 %></div>
+                            <div class="meta"><%= new Date(r.createdAt || Date.now()).toLocaleString('ru-RU') %></div>
+                        </div>
+                        <p style="margin-top:8px;"><%= r.comment %></p>
+                    </article>
+                <% }) %>
+            <% } else { %>
+                <p class="sub">Комментариев пока нет.</p>
+            <% } %>
+        </section>
+    <% } else { %>
+        <section class="panel">
+            <h1 class="title">Книга не найдена</h1>
+        </section>
+    <% } %>
+</main>
+</body>
+</html>

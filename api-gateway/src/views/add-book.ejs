@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <title>BookClub — добавить книгу</title>
+    <style>
+        body { font-family:"Segoe UI",Arial,sans-serif;margin:0;background:#f9f9f9;color:#333; }
+        header { background:#4a148c;color:#fff;padding:12px 20px; }
+        .container { max-width:600px;margin:24px auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+        .msg { padding:10px;border-radius:6px;margin-bottom:12px; }
+        .msg.ok { background:#e8f5e9;color:#2e7d32;border:1px solid #c8e6c9; }
+        .msg.err { background:#ffebee;color:#b71c1c;border:1px solid #ffcdd2; }
+        input,button { width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:4px; }
+        button { background:#4a148c;color:#fff;border:none;cursor:pointer; }
+    </style>
+</head>
+<body>
+<header><a href="/" style="color:#fff;text-decoration:none">← На главную</a></header>
+<div class="container">
+    <h1>Добавить книгу (только админ)</h1>
+    <% if (msg) { %><div class="msg ok"><%= msg %></div><% } %>
+    <% if (err) { %><div class="msg err"><%= err %></div><% } %>
+    <form method="post" action="/add-book">
+        <input type="text" name="title" placeholder="Название книги" required />
+        <input type="text" name="author" placeholder="Автор" required />
+        <button type="submit">Добавить</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <title>BookClub — мой аккаунт</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+<%- include('partials/header') %>
+<main class="container">
+    <%- include('partials/flash') %>
+
+    <section class="panel">
+        <div class="actions" style="justify-content:space-between; align-items:flex-start;">
+            <div>
+                <h1 class="title">Мой аккаунт</h1>
+                <p class="sub">Email: <strong><%= user.email %></strong></p>
+                <p class="sub">Роль: <strong><%= user.role %></strong></p>
+            </div>
+            <form method="post" action="/logout"><button class="btn btn-outline" type="submit">Выйти</button></form>
+        </div>
+    </section>
+
+    <section class="grid grid-2" style="margin-top:16px;">
+        <div class="panel">
+            <h2 class="title">Хочу прочитать</h2>
+            <% if (want && want.length) { %>
+                <div class="grid grid-3">
+                    <% want.forEach(function(b){ %>
+                        <article class="card">
+                            <h2><a href="/book/<%= b.id %>"><%= b.title %></a></h2>
+                            <p class="meta"><%= b.author %></p>
+                            <p class="meta">Жанр: <%= b.genre || '—' %> · Год: <%= b.year || '—' %></p>
+                        </article>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <p class="sub">Пока пусто. Добавляйте книги со страницы книги.</p>
+            <% } %>
+        </div>
+
+        <div class="panel">
+            <h2 class="title">Прочитано</h2>
+            <% if (read && read.length) { %>
+                <div class="grid grid-3">
+                    <% read.forEach(function(b){ %>
+                        <article class="card">
+                            <h2><a href="/book/<%= b.id %>"><%= b.title %></a></h2>
+                            <p class="meta"><%= b.author %></p>
+                            <p class="meta">Жанр: <%= b.genre || '—' %> · Год: <%= b.year || '—' %></p>
+                        </article>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <p class="sub">Ещё ничего. Отмечайте «Прочитано» на странице книги.</p>
+            <% } %>
+        </div>
+    </section>
+</main>
+</body>
+</html>

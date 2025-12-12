@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+    <meta charset="utf-8" />
+    <title>BookClub — книги</title>
+    <style>body{font-family:sans-serif;margin:24px} a{color:#0366d6;text-decoration:none}</style>
+</head><body>
+<h1>Книги</h1>
+<nav>
+    <a href="/">Книги</a> | <a href="/users">Пользователи</a> | <a href="/reviews">Отзывы</a>
+</nav>
+<% if (books && books.length) { %>
+    <ul>
+        <% books.forEach(b => { %>
+            <li>
+                <a href="/book/<%= b.id %>"><%= b.title %></a> — <em><%= b.author %></em>
+            </li>
+        <% }) %>
+    </ul>
+<% } else { %>
+    <p>Книг пока нет.</p>
+<% } %>
+</body></html>

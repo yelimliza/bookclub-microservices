@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <title>BookClub — топ книг</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+<%- include('partials/header') %>
+<main class="container">
+    <%- include('partials/flash') %>
+
+    <section class="panel">
+        <h1 class="title">Топ книг</h1>
+        <div class="grid grid-3">
+            <% if (books && books.length) { %>
+                <% books.forEach(function(b){ %>
+                    <article class="card">
+                        <h2>
+                            <a href="/book/<%= b.id %>"><%= b.title || 'Без названия' %></a>
+                            <span class="badge badge-top">ТОП</span>
+                        </h2>
+                        <p class="meta">Автор: <%= b.author || 'Неизвестен' %></p>
+                        <p class="meta">Жанр: <%= b.genre || '—' %> · Год: <%= b.year || '—' %></p>
+                    </article>
+                <% }) %>
+            <% } else { %>
+                <p class="sub">Топ пока пуст. Добавьте книги в админ-панели.</p>
+            <% } %>
+        </div>
+    </section>
+</main>
+</body>
+</html>

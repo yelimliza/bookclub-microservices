@@ -1,0 +1,6 @@
+<% if (msg || err) { %>
+    <div class="flash">
+        <% if (msg) { %><div class="ok"><%= msg %></div><% } %>
+        <% if (err) { %><div class="err"><%= err %></div><% } %>
+    </div>
+<% } %>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+    <meta charset="utf-8" /><title>BookClub — пользователи</title>
+</head><body>
+<h1>Пользователи</h1>
+<nav><a href="/">Книги</a> | <a href="/users">Пользователи</a> | <a href="/reviews">Отзывы</a></nav>
+<% if (users && users.length) { %>
+    <ul>
+        <% users.forEach(u => { %>
+            <li>#<%= u.id %> — <%= u.name %></li>
+        <% }) %>
+    </ul>
+<% } else { %>
+    <p>Пользователей нет.</p>
+<% } %>
+</body></html>
