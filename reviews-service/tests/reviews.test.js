@@ -1,4 +1,4 @@
-import request from 'supertest';
+import * as request from 'supertest';
 
 describe('Health Check', () => {
     it('should respond with 200 on /health', async () => {
