@@ -1,5 +1,5 @@
-const request = require('supertest');
-import app from '../src/index.js'; // экспортируй express app из index.js
+import request from 'supertest';
+import app from '../src/index.js'; // убедись, что ты экспортируешь express app
 
 describe('API Gateway', () => {
     it('should respond with 200 on /health', async () => {
