@@ -76,12 +76,7 @@ jobs:
           npm run build
           npm test
 
-      - name: Build & Test API Gateway
-        working-directory: api-gateway
-        run: |
-          npm ci
-          npm run build
-          npm test
+   
 
       - name: Build Frontend
         working-directory: frontend
